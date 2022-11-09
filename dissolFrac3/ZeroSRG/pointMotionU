@@ -1,0 +1,77 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       pointVectorField;
+    location    "0";
+    object      pointMotionU;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 0 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+      type            fixedValue;
+      value           uniform (0 0 0);
+    }
+
+    outlet
+    {
+      type            fixedValue;
+      value           uniform (0 0 0);
+    }
+
+    insolubleX
+    {
+      type            fixedNormalSlip;
+      value           uniform (0 0 0);
+      n               (1 0 0);
+    }
+
+    insolubleY
+    {
+      type            fixedNormalSlip;
+      value           uniform (0 0 0);
+      n               (0 1 0);
+    }
+
+    "insolubleZ.*"
+    {
+      type            fixedNormalSlip;
+      value           uniform (0 0 0);
+      n               (0 0 1);
+    }
+
+    solubleWall
+    {
+      type            dissolMotion;
+      value           uniform (0 0 0);
+      scaleMotion          1.0;
+      rlxTol               1e-6;
+      surfaceRlx           true;
+      q_norm_recalc        1;
+      k_1                  1.0;
+      k_2                  1.0;
+      q_2                  1;
+      edgeRlx              true;
+      q_norm_recalc_edge   1;
+      k_1edge              1.0;
+      k_2edge              1.0;
+      q_2edge              1;
+      pinnedPoint          false;
+    }
+}
+
+// ************************************************************************* //
